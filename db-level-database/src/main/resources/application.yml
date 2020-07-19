@@ -1,0 +1,71 @@
+#sharding-jdbc分片规则配置
+#配置数据源
+spring:
+  shardingsphere:
+    datasource:
+      #数据库别名
+      names: db01,db02
+      db01:
+        url: jdbc:mysql://localhost:3316/cloudDB01
+        username: root
+        password: 123456Aa
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+      db02:
+        url: jdbc:mysql://localhost:3316/cloudDB02
+        username: root
+        password: 123456Aa
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+    sharding:
+      tables:
+        td_ms_sms:
+          #指定td_ms_sms表的数据分布情况，配置数据节点db01.td_ms_sms_1,db01.td_ms_sms_2,db02.td_ms_sms_1,db02.td_ms_sms_2
+          actual-data-nodes: db0$->{1..2}.td_ms_sms_$->{1..2}
+          #指定td_ms_sms表的主键生成策略为SNOWFLAKE
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          #分库策略，以phone为分片键，phone hash %2+1,phone hash为偶数操作数据源db01，否则操作db02
+          database-strategy:
+            inline:
+              sharding-column: phone
+              #phone hash 为奇数放在db02,phone hash为偶数放在db01
+              algorithm-expression: db0$->{Math.abs(phone.hashCode())%2+1}
+          #分表策略，指定td_ms_sms表的分片策略，分片策略包括分片键和分片算法
+          table-strategy:
+            inline:
+              sharding-column: id
+              #id为奇数放在td_ms_sms_2,id为偶数放在td_ms_sms_1
+              algorithm-expression: td_ms_sms_$->{id%2+1}
+    #显示sharding jdbc sql
+    props:
+      sql:
+        show: true
+
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/**/*.xml                       # mapper映射文件
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: partial
+    #输出日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: 'null'
+    cacheEnabled: false
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        web: debug
+    com:
+      itheima:
+        dbsharding: debug
+      #打印mybatis sql 日志
+      com.yuan.sharding.dao: debug
+    druid:
+      sql: debug
