@@ -1,0 +1,52 @@
+#sharding-jdbc分片规则配置
+#配置数据源
+spring:
+  shardingsphere:
+    datasource:
+      #数据库别名
+      names: db01
+      db01:
+        url: jdbc:mysql://localhost:3316/cloudDB01
+        username: root
+        password: 123456Aa
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+    sharding:
+      tables:
+        td_ms_sms:
+          #指定td_ms_sms表的数据分布情况，配置数据节点db01.td_ms_sms_1,db01.td_ms_sms_2
+          actual-data-nodes: db01.td_ms_sms_$->{1..2}
+          #指定td_ms_sms表的主键生成策略为SNOWFLAKE
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          #指定td_ms_sms表的分片策略，分片策略包括分片键和分片算法
+          table-strategy:
+            inline:
+              sharding-column: id
+              #id为奇数放在td_ms_sms_2,id为偶数放在td_ms_sms_1
+              algorithm-expression: td_ms_sms_$->{id%2+1}
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/**/*.xml                       # mapper映射文件
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: partial
+    #输出日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: 'null'
+    cacheEnabled: false
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        web: debug
+    com:
+      itheima:
+        dbsharding: info
+    druid:
+      sql: info
