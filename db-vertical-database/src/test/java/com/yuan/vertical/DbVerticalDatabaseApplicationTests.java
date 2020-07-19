@@ -1,8 +1,10 @@
 package com.yuan.vertical;
 
 import com.yuan.vertical.dao.MarketActivityMapper;
+import com.yuan.vertical.dao.TCommonMapper;
 import com.yuan.vertical.dao.TdMsSmsMapper;
 import com.yuan.vertical.entity.MarketActivity;
+import com.yuan.vertical.entity.TCommon;
 import com.yuan.vertical.entity.TdMsSms;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +22,9 @@ public class DbVerticalDatabaseApplicationTests {
     @Resource
     private TdMsSmsMapper tdMsSmsMapper;
 
+    @Resource
+    private TCommonMapper tCommonMapper;
+
     @Test
     public void insetM2() {
         TdMsSms tdMsSms = new TdMsSms();
@@ -35,5 +40,15 @@ public class DbVerticalDatabaseApplicationTests {
         marketActivity.setName("chen");
         marketActivity.setStartTime(new Date());
         marketActivityMapper.insert(marketActivity);
+    }
+
+    @Test
+    public void insertCommon(){
+        TCommon tCommon = new TCommon();
+        tCommon.setId(2L);
+        tCommon.setName("yuanjm");
+        tCommon.setType("a");
+        //会在两个库中都插入记录
+        tCommonMapper.insert(tCommon);
     }
 }

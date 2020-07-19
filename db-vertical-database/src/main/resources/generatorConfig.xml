@@ -28,7 +28,7 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- 生成模型的包名和位置 文件夹自己定义-->
-        <javaModelGenerator targetPackage="com.yuan.database.entity"
+        <javaModelGenerator targetPackage="com.yuan.vertical.entity"
                             targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
@@ -39,7 +39,7 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置 文件夹自己定义-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.yuan.database.dao"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.yuan.vertical.dao"
                              targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
@@ -47,10 +47,7 @@
         <!-- 要生成哪些表 -->
         <!--        <table tableName="market_activity"/>-->
         <!--生成的查询不包含Example-->
-        <table tableName="market_activity" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="td_ms_sms" enableCountByExample="false"
+        <table tableName="t_common" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
     </context>

@@ -43,6 +43,8 @@ spring:
             inline:
               sharding-column: id
               algorithm-expression: market_activity
+      #公共表，m1、m2大家一起修改
+      broadcast-tables: t_common
 
     #显示sharding jdbc sql
     props:
