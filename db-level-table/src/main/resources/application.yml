@@ -26,6 +26,11 @@ spring:
               sharding-column: id
               #id为奇数放在td_ms_sms_2,id为偶数放在td_ms_sms_1
               algorithm-expression: td_ms_sms_$->{id%2+1}
+    #显示sharding jdbc sql
+    props:
+      sql:
+        show: true
+
 
 mybatis:
   mapper-locations:
@@ -47,6 +52,8 @@ logging:
         web: debug
     com:
       itheima:
-        dbsharding: info
+        dbsharding: debug
+      #打印mybatis sql 日志
+      com.yuan.sharding.dao: debug
     druid:
-      sql: info
+      sql: debug

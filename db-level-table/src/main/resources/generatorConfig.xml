@@ -47,7 +47,7 @@
         <!-- 要生成哪些表 -->
         <!--        <table tableName="market_activity"/>-->
         <!--生成的查询不包含Example-->
-        <table tableName="td_ms_sms" enableCountByExample="false"
+        <table tableName="market_activity" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
     </context>
