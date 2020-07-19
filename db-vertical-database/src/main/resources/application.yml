@@ -1,0 +1,77 @@
+#sharding-jdbc分片规则配置 垂直分库相当于动态切换数据源
+#配置数据源
+spring:
+  shardingsphere:
+    datasource:
+      #数据库别名
+      names: m1,m2
+      m1:
+        url: jdbc:mysql://localhost:3316/cloudDB03
+        username: root
+        password: 123456Aa
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+      m2:
+        url: jdbc:mysql://localhost:3316/yuan
+        username: root
+        password: 123456Aa
+        driver-class-name: com.mysql.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+    sharding:
+      tables:
+        td_ms_sms:
+          #指定td_ms_sms表的数据分布情况，配置数据节点m2.td_ms_sms
+          actual-data-nodes: m2.td_ms_sms
+          #指定td_ms_sms表的主键生成策略为SNOWFLAKE
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          #分表策略，指定td_ms_sms表的分片策略，分片策略包括分片键和分片算法，这里不需要分片先写着，防止以后需要分片
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: td_ms_sms
+        market_activity:
+          #指定market_activity表的数据分布情况，配置数据节点m1.market_activity
+          actual-data-nodes: m1.market_activity
+          #指定market_activity表的主键生成策略为SNOWFLAKE
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          #分表策略，指定market_activity表的分片策略，分片策略包括分片键和分片算法,这里不需要分片先写着，防止以后需要分片
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: market_activity
+
+    #显示sharding jdbc sql
+    props:
+      sql:
+        show: true
+
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/**/*.xml                       # mapper映射文件
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: partial
+    #输出日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: 'null'
+    cacheEnabled: false
+
+logging:
+  level:
+    root: info
+    org:
+      springframework:
+        web: debug
+    com:
+      itheima:
+        dbsharding: debug
+      #打印mybatis sql 日志
+      com.yuan.sharding.dao: debug
+    druid:
+      sql: debug
