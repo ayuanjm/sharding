@@ -24,6 +24,9 @@
 
     <modules>
         <module>db-level-table</module>
+        <module>db-level-database</module>
+        <module>db-read-write</module>
+        <module>db-vertical-database</module>
     </modules>
     <dependencies>
         <dependency>
