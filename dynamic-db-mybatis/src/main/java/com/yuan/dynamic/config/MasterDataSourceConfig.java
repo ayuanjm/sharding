@@ -34,7 +34,8 @@ public class MasterDataSourceConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(masterDataSource());
         sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/master/**/*.xml"));
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.yuan.dynamic.dao.master");
+        //entity 位置
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.yuan.dynamic.entity");
         return sqlSessionFactoryBean.getObject();
     }
 

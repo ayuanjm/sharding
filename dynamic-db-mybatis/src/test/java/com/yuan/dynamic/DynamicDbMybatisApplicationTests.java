@@ -23,17 +23,17 @@ public class DynamicDbMybatisApplicationTests {
     @Resource
     private Demo demo;
 
-    @Test
-    public void selectSlave() {
-        TReadWrite tReadWrite = tReadWriteMapper.selectByPrimaryKey(1L);
-        System.out.println(tReadWrite);
-    }
-
-    @Test
-    public void selectMaster() {
-        MarketActivity marketActivity = marketActivityMapper.selectByPrimaryKey(1L);
-        System.out.println(marketActivity);
-    }
+//    @Test
+//    public void selectSlave() {
+//        TReadWrite tReadWrite = tReadWriteMapper.selectByPrimaryKey(1L);
+//        System.out.println(tReadWrite);
+//    }
+//
+//    @Test
+//    public void selectMaster() {
+//        MarketActivity marketActivity = marketActivityMapper.selectByPrimaryKey(1L);
+//        System.out.println(marketActivity);
+//    }
 
     @Test
     public void testTransaction() {

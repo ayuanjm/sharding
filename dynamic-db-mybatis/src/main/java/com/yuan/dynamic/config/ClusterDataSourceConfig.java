@@ -30,6 +30,8 @@ public class ClusterDataSourceConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(slaveDataSource());
         sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/slave/**/*.xml"));
+        //entity 位置
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.yuan.dynamic.entity");
         return sqlSessionFactoryBean.getObject();
     }
 

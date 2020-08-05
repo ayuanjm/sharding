@@ -23,3 +23,4 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     jdbc-type-for-null: 'null'
     cacheEnabled: false
+
